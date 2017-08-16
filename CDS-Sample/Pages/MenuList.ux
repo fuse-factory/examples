@@ -1,0 +1,41 @@
+<DockPanel ux:Class="MenuList">
+	<Router ux:Dependency="router" />
+
+	<JavaScript>
+		var items = [
+			{ label:"CheckBox", page:"checkboxpage" },
+			{ label:"RadioButton", page:"radiobuttonpage" },
+			{ label:"ImageError", page:"imageerrorpage" },
+			{ label:"QrReader", page:"qrreaderpage" },
+			{ label:"ImageSlide", page:"imageslidepage" }
+		];
+
+		module.exports = {
+			items
+		}
+	</JavaScript>
+
+	<NavigationBar title="CDS Sample" />
+
+	<ScrollView>
+		<StackPanel>
+			<Each Items="{items}">
+				<StackPanel ux:Name="container" Background="#fff">
+					<Text ux:Name="txt" Value="{label}" Margin="12, 18" FontSize="19" />
+					<Rectangle Width="100%" Height="1" Background="#ddd" />
+
+					<WhilePressed>
+						<Change txt.Color="#f00" />
+					</WhilePressed>
+					
+					<Clicked>
+	    				<RaiseUserEvent EventName="mainEvent">
+	    					<UserEventArg Name="type" StringValue="pushPage" />
+	    					<UserEventArg Name="item" Value="{}" />
+	    				</RaiseUserEvent>
+	    			</Clicked>
+				</StackPanel>
+			</Each>
+		</StackPanel>
+	</ScrollView>
+</DockPanel>

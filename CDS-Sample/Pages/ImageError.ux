@@ -1,0 +1,12 @@
+<DockPanel ux:Class="ImageError" Background="Navy">
+	<Router ux:Dependency="router" />
+
+	<NavigationBar title="ImageError" />
+
+	<FileImageSource ux:Global="noimage" File="../Assets/fuselogo.png" />
+	<Image ux:Name="imageload" Url="https://upload.wikimedia.org/wikipedia/commons/0/06/Kitten_in_Rizal_Park%2C_Manila.jp">
+		<WhileFailed>
+			<Set imageload.Source="noimage" />
+		</WhileFailed>
+	</Image>
+</DockPanel>

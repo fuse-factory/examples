@@ -1,0 +1,61 @@
+<DockPanel ux:Class="RadioButton">
+	<Router ux:Dependency="router" />
+
+	<NavigationBar title="Radio Button" />
+
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+		var datas = Observable(
+			{id: 0, isCheck:Observable(true), txt: "Male"},
+			{id: 1, isCheck:Observable(false), txt: "Female"},
+			{id: 2, isCheck:Observable(false), txt: "Etc."}
+			);
+
+		function checkSelect(arg){
+			if(arg.data.isCheck.value == false){
+				for(var i=0; i < datas.length; i++){
+					datas.getAt(i).isCheck.value = false;
+				}
+				arg.data.isCheck.value = true;
+				console.log(arg.data.id + " / " + arg.data.txt);
+			}
+		}
+
+		module.exports={
+			datas, checkSelect
+		}
+
+	</JavaScript>
+
+	<Panel ux:Class="CustomView.MyRadioButton">
+		<object ux:Property="Select" />
+		<string ux:Property="Text" />
+		<StackPanel Orientation="Horizontal">
+			<Circle Alignment="Left" Width="30" Height="30" Color="White">
+				<Stroke Color="Black"/>
+				<Circle ux:Name="cir" Width="22" Height="22" Color="Red">
+					<Stroke Color="Black" />
+				</Circle>
+			</Circle>
+			<Text Value="{Property Text}" Alignment="Center" FontSize="20" Color="Black" Margin="10,0"/>
+		</StackPanel>
+		<WhileTrue Value="{Property Select}">
+			<Change cir.Visibility="Visible" />
+		</WhileTrue>
+
+		<WhileFalse Value="{Property Select}">
+			<Change cir.Visibility="Hidden" />
+		</WhileFalse>
+	</Panel>
+
+	<Rectangle Width="150" Height="150">
+		<Text Value="Gender" Alignment="TopCenter" Background="White" Y="-10" />
+		<Stroke Width="2" Color="Gray"/>
+		<StackPanel Alignment="Center" ItemSpacing="5">
+			<Each Items="{datas}">
+				<CustomView.MyRadioButton Select="{isCheck}" Text="{txt}" Clicked="{checkSelect}"/>
+			</Each>
+		</StackPanel>
+	</Rectangle>
+
+</DockPanel>

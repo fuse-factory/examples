@@ -1,0 +1,66 @@
+<App>
+
+	<Router ux:Name="router" />
+
+	<ClientPanel>
+
+		<UserEvent ux:Name="mainEvent"/>
+    	<OnUserEvent EventName="mainEvent" Handler="{on_MainEvent}" />
+
+		<JavaScript>
+    	var Observable = require("FuseJS/Observable");
+    	var leftVisibility = Observable("Hidden");
+
+    	function on_MainEvent(args)
+    	{
+    		switch(args.type)
+    		{
+    			case "pushPage":
+    				var _page = args.item.page;
+    				setTimeout(() => { leftVisibility.value = "Visible"; }, 200);
+    				router.push(_page);
+    				break;
+
+    			case "goMain":
+    				leftVisibility.value = "Hidden";
+    				console.log("main");
+    				router.goBack();
+    				break;
+    		}
+    	}
+    	
+    	module.exports = {
+    		leftVisibility,
+    		on_MainEvent
+    	}
+    </JavaScript>
+
+		<Grid ux:Class="NavigationBar" Columns="50, 1*, 50" Dock="Top" Height="50" Background="#08f">
+        	<string ux:Property="title" />
+
+        	<Panel Alignment="Center" Visibility="{leftVisibility}">
+        		<Image File="./Assets/backBtn.png" Height="25">
+        			<Clicked>
+        				<RaiseUserEvent EventName="mainEvent">
+        					<UserEventArg Name="type" StringValue="goMain" />
+        				</RaiseUserEvent>
+        			</Clicked>
+        		</Image>
+        	</Panel>
+        	<Panel Alignment="Center">
+        		<Text Value="{ReadProperty title}" Color="#fff" FontSize="19" />
+        	</Panel>
+        	<Panel Alignment="Center">
+        	</Panel>
+        </Grid>
+
+		<Navigator DefaultPath="menulistpage">
+			<MenuList ux:Template="menulistpage" router="router" />
+			<CheckBox ux:Template="checkboxpage" router="router" />
+			<RadioButton ux:Template="radiobuttonpage" router="router" />
+			<ImageError ux:Template="imageerrorpage" router="router" />
+			<QrReader ux:Template="qrreaderpage" router="router" />
+			<ImageSlide ux:Template="imageslidepage" router="router" />
+		</Navigator>
+	</ClientPanel>
+</App>

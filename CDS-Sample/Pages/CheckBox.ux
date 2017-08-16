@@ -1,0 +1,57 @@
+<!-- CheckBox Sample 1 -->
+<DockPanel ux:Class="CheckBox">
+	<Router ux:Dependency="router" />
+
+	<NavigationBar title="CheckBox" />
+
+	<ToggleControl ux:Class="CheckBoxOne" HitTestMode="LocalBounds">
+	    <string ux:Property="CheckBoxString" />
+	    <Clicked>
+	        <Toggle Target="this" />
+	    </Clicked>
+
+	    <WrapPanel Orientation="Horizontal">
+			<Rectangle Width="20" Height="20" CornerRadius="3">
+			    <LinearGradient StartPoint="0,0" EndPoint="0,1">
+			        <GradientStop Offset="0" Color="#f0f0f0" />
+			        <GradientStop Offset="1" Color="#e0e0e0" />
+			    </LinearGradient>
+			    <Text ux:Name="checkbox" Alignment="Center" />
+
+			    <WhileTrue Source="this">
+			    	<DebugAction Message="Checked" />
+			        <Change checkbox.Value="✔" />
+			    </WhileTrue>
+			</Rectangle>
+			<Text Value="{ReadProperty CheckBoxString}" Margin="10,0,0,0" />
+		</WrapPanel>
+	</ToggleControl>
+
+	<!-- CheckBox Sample 2 -->
+	<ToggleControl ux:Class="CheckBoxTwo" HitTestMode="LocalBounds">
+		<string ux:Property="CheckBoxString" />
+
+	    <Clicked>
+	        <Toggle Target="this" />
+	    </Clicked>
+
+	    <WrapPanel Orientation="Horizontal"> 
+		    <Rectangle Width="20" Height="20">
+		        <Stroke Color="#000" />
+		        <Rectangle Color="#999" Margin="4" ux:Name="_toggledBox" Opacity="0" />
+		    </Rectangle>
+		    <Text Value="{ReadProperty CheckBoxString}" Margin="10,0,0,0" />
+		</WrapPanel>
+	    
+	    <WhileTrue Value="{ReadProperty this.Value}">
+	    	<DebugAction Message="Checked" />
+	        <Change _toggledBox.Opacity="1" Duration="0.15" Easing="CubicOut" EasingBack="CubicIn" />
+	    </WhileTrue>
+	</ToggleControl>
+
+
+	<StackPanel ItemSpacing="20">
+		<CheckBoxOne CheckBoxString="Are you a girl?" />
+		<CheckBoxTwo CheckBoxString="Do you love Fuse?" />
+	</StackPanel>
+</DockPanel>

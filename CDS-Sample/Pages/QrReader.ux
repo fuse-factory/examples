@@ -1,0 +1,33 @@
+<DockPanel ux:Class="QrReader">
+
+	<Router ux:Dependency="router" />
+
+	<NavigationBar title="QrReader" />
+
+	<JavaScript>
+		var qreader = require('Qreader');
+		var Observable = require('FuseJS/Observable');
+		var txt = Observable();
+
+		function load () {
+		 qreader.scan().then(function (res) {
+		  txt.value = res;
+		 });
+		}
+		module.exports = {
+		 load: load,
+		 txt: txt
+		}
+	</JavaScript>
+
+	<Qreader ux:Global="Qreader" />
+
+	<ClientPanel>
+		<Panel Alignment="Top" Height="80%">
+			<Text Value="{txt}"/>
+		</Panel>
+		<Panel Alignment="Bottom" Height="20%">
+			<Button Text="Click!!" Clicked="{load}"/>
+		</Panel>
+	</ClientPanel>
+</DockPanel>
